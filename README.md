@@ -1,4 +1,4 @@
-# c2llm (Code to LLM)
+# c2llm (Copy to LLM)
 
 A deterministic, typo-tolerant CLI utility to quickly copy relevant code files to your clipboard, formatted perfectly for LLMs like ChatGPT, Claude, or Gemini.
 
