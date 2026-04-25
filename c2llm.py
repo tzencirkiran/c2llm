@@ -95,13 +95,14 @@ def get_config_path():
 
 def load_config():
     path = get_config_path()
+    config = {"fixed_files": [], "enabled": True, "auto_browser": False, "model": "chatgpt"}
     if path.exists():
         try:
             with open(path, 'r') as f:
-                return json.load(f)
+                config.update(json.load(f))
         except:
             pass
-    return {"fixed_files": [], "enabled": True, "auto_browser": False}
+    return config
 
 def save_config(config):
     path = get_config_path()
@@ -117,6 +118,20 @@ def handle_browser_command(args):
     config['auto_browser'] = not config.get('auto_browser', False)
     save_config(config)
     print(f"Auto-Browser is now {'ENABLED' if config['auto_browser'] else 'DISABLED'}")
+
+def handle_set_command(args):
+    if not args:
+        print("Usage: c2llm set [chatgpt | gemini | claude]")
+        return
+    model = args[0].lower()
+    valid_models = ["chatgpt", "gemini", "claude"]
+    if model not in valid_models:
+        print(f"Invalid model. Choose from: {', '.join(valid_models)}")
+        return
+    config = load_config()
+    config['model'] = model
+    save_config(config)
+    print(f"Default model set to: {model.upper()}")
 
 def handle_fixed_command(args):
     config = load_config()
@@ -159,6 +174,7 @@ def show_status():
     config = load_config()
     print("\n📊 c2llm Status (Repo-specific)")
     print(f"--------------------------------")
+    print(f"Active Model: {config.get('model', 'chatgpt').upper()}")
     print(f"Persistence:  {'✅ ENABLED' if config.get('enabled', True) else '❌ DISABLED'}")
     print(f"Auto-Browser: {'✅ ENABLED' if config.get('auto_browser', False) else '❌ DISABLED'}")
     
@@ -177,6 +193,7 @@ def show_help():
 
 Usage:
   c2llm [queries]          Search and copy files
+  c2llm set [model]          Set active LLM (chatgpt, gemini, claude)
   c2llm fixed              Manage repo-specific fixed files
   c2llm persistence toggle Toggle fixed files inclusion
   c2llm browser toggle     Toggle auto-opening ChatGPT in Firefox
@@ -227,6 +244,9 @@ def main():
         sys.exit(0)
     elif cmd == "persistence":
         handle_persistence_command(sys.argv[2:])
+        sys.exit(0)
+    elif cmd == "set":
+        handle_set_command(sys.argv[2:])
         sys.exit(0)
     elif cmd == "browser":
         handle_browser_command(sys.argv[2:])
@@ -317,8 +337,15 @@ def main():
 
         # Auto-browser logic
         if config.get('auto_browser', False):
-            print("🌐 Opening ChatGPT in Firefox...")
-            subprocess.Popen(['firefox', '--new-tab', 'https://chatgpt.com/?temporary-chat=true'],
+            model = config.get('model', 'chatgpt')
+            urls = {
+                "chatgpt": "https://chatgpt.com/?temporary-chat=true",
+                "gemini": "https://gemini.google.com/app",
+                "claude": "https://claude.ai/new?incognito"
+            }
+            url = urls.get(model, urls["chatgpt"])
+            print(f"🌐 Opening {model.upper()} in Firefox...")
+            subprocess.Popen(['firefox', '--new-tab', url],
                              stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             
     except FileNotFoundError:

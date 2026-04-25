@@ -4,7 +4,7 @@ _c2llm_completion() {
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
     
-    opts="fixed persistence browser status --help"
+    opts="fixed persistence browser status set --help"
     
     # If it's the first argument after 'c2llm'
     if [[ ${COMP_CWORD} -eq 1 ]] ; then
@@ -19,6 +19,10 @@ _c2llm_completion() {
     
     # Subcommand specific logic
     case "${prev}" in
+        set)
+            COMPREPLY=( $(compgen -W "chatgpt gemini claude" -- "${cur}") )
+            return 0
+            ;;
         fixed)
             COMPREPLY=( $(compgen -W "-a -rm" -- "${cur}") )
             return 0

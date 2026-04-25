@@ -8,7 +8,8 @@ A deterministic, typo-tolerant CLI utility to quickly copy relevant code files t
 - **Multi-Group Queries:** Combine searches with `and`, `+`, or `,`.
 - **Repo-Specific Persistence:** "Fix" certain files (like `AGENT.md` or `README.md`) to always be included in copies for a specific project.
 - **Interactive Selection:** Preview and pick exactly which files to copy using numbers or ranges.
-- **Auto-Browser:** Automatically opens ChatGPT in a new Firefox tab after copying.
+- **Model Selection:** Switch between ChatGPT, Gemini, and Claude as your destination.
+- **Auto-Browser:** Automatically opens your selected LLM in a new Firefox tab after copying.
 - **Wayland & X11 Support:** Works out of the box on modern Linux systems.
 - **Tab Completion:** Full bash completion for commands and files.
 
@@ -33,6 +34,12 @@ c2llm main.py, utils.py               # Copy two specific files
 c2llm js ui + python logic            # Combine JS UI and Python logic
 ```
 
+### Model Selection
+```bash
+c2llm set gemini             # Switch to Gemini (default is chatgpt)
+c2llm set claude             # Switch to Claude
+```
+
 ### Persistence (Repo-specific)
 ```bash
 c2llm fixed -a AGENT.md      # Always include AGENT.md in this repo
@@ -42,7 +49,7 @@ c2llm status                 # See current repo settings
 
 ### Browser Automation
 ```bash
-c2llm browser toggle         # Automatically open ChatGPT after copying
+c2llm browser toggle         # Automatically open LLM's web app after copying
 ```
 
 ## ⌨️ Selection Options

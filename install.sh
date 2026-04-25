@@ -13,6 +13,7 @@ mkdir -p "$INSTALL_DIR"
 # 2. Copy files (assuming run from project root)
 cp c2llm.py "$INSTALL_DIR/c2llm.py"
 cp c2llm-completion.bash "$INSTALL_DIR/c2llm-completion.bash"
+cp LICENSE "$INSTALL_DIR/LICENSE"
 chmod +x "$INSTALL_DIR/c2llm.py"
 
 # 3. Create symlink
