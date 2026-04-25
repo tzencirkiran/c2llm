@@ -17,7 +17,7 @@ A deterministic, typo-tolerant CLI utility to quickly copy relevant code files t
 Run the following command in your terminal to install `c2llm`:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/YOUR_USERNAME/c2llm/main/install.sh | bash
+curl -sSL https://github.com/tzencirkiran/c2llm/main/install.sh | bash
 ```
 
 *(Or manual installation)*:
